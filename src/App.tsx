@@ -1,15 +1,26 @@
 import React from 'react'
-import NumberInput from './NumberInput'
+import NumberInput, { NumberInputElement } from './NumberInput'
 
 const App = () => {
+  const ref = React.useRef<NumberInputElement>(null)
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('aaa')
+
+    if (ref.current) {
+      console.log(ref.current.value())
+    }
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <NumberInput />
+      <NumberInput
+        ref={ref}
+        inputMode="decimal"
+        step="0.01"
+        min="0"
+        max="999"
+      />
       <button type="submit">submit</button>
     </form>
   )
