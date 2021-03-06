@@ -1,4 +1,5 @@
 import React from 'react'
+import NumberInput from './NumberInput'
 
 const App = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -8,7 +9,7 @@ const App = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input />
+      <NumberInput />
       <button type="submit">submit</button>
     </form>
   )
