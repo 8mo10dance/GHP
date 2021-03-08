@@ -1,4 +1,5 @@
 import React from 'react'
+import { CssBaseline } from '@material-ui/core'
 import NumberInput, { NumberInputElement } from './NumberInput'
 
 const App = () => {
@@ -13,16 +14,19 @@ const App = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <NumberInput
-        ref={ref}
-        inputMode="decimal"
-        step="0.01"
-        min="0"
-        max="999"
-      />
-      <button type="submit">submit</button>
-    </form>
+    <>
+      <CssBaseline />
+      <form onSubmit={handleSubmit}>
+        <NumberInput
+          ref={ref}
+          inputMode="decimal"
+          step="0.01"
+          min="0"
+          max="999"
+        />
+        <button type="submit">submit</button>
+      </form>
+    </>
   )
 }
 
