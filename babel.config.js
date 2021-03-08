@@ -17,6 +17,15 @@ module.exports = (api) => {
     '@babel/proposal-class-properties',
     '@babel/proposal-object-rest-spread',
     'react-hot-loader/babel',
+    [
+      'import',
+      {
+        libraryName: '@material-ui/core',
+        libraryDirectory: '',
+        camel2DashComponentName: false,
+      },
+      'core',
+    ],
   ]
 
   return {
