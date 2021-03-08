@@ -52,5 +52,4 @@ module.exports = (env, argv) => ({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  devtool: argv.mode === 'development' ? 'source-map' : 'none',
 })
