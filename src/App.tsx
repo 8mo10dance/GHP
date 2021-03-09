@@ -17,9 +17,11 @@ import {
 } from '@material-ui/core'
 import Dialog from '@/components/common/Dialog'
 import CameraPage from '@/components/camera/CameraPage'
+import useImageBlobs from '@/hooks/useImageBlobs'
 import NumberInput, { NumberInputElement } from './NumberInput'
 
 const SamplePage = () => {
+  const { imageBlobs, initialize, push } = useImageBlobs()
   const ref = React.useRef<NumberInputElement>(null)
   const history = useHistory()
   const matchCameraPage = useRouteMatch('/camera')
@@ -69,7 +71,11 @@ const SamplePage = () => {
       <Dialog open={Boolean(matchCameraPage)} onClose={() => history.push('/')}>
         <Switch>
           <Route path="/camera">
-            <CameraPage />
+            <CameraPage
+              imageBlobs={imageBlobs}
+              initialize={initialize}
+              push={push}
+            />
           </Route>
         </Switch>
       </Dialog>

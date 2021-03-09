@@ -2,14 +2,28 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { AppBar, Toolbar, Typography, Box, IconButton } from '@material-ui/core'
 import { Close } from '@material-ui/icons'
+import { ImageBlob } from '@/types/utils'
 import Layout from '@/components/common/Layout'
 import CameraView from '@/components/camera/CameraView'
 import CameraController from '@/components/camera/CameraController'
+import createImageBlob from '@/helpers/createImageBlob'
 
-const CameraPage = () => {
+export type VideoElement = {
+  videoEl: () => HTMLVideoElement | null
+}
+
+type Props = {
+  imageBlobs: ImageBlob[]
+  initialize: () => void
+  push: (imageBlob: ImageBlob) => void
+}
+
+const CameraPage: React.FC<Props> = ({ imageBlobs, initialize, push }) => {
   const [stream, setStream] = React.useState<MediaStream>()
+  const videoRef = React.useRef<VideoElement>(null)
 
   React.useEffect(() => {
+    initialize()
     updateStream()
   }, [])
 
@@ -25,6 +39,16 @@ const CameraPage = () => {
     setStream(stream)
   }
 
+  const handleClickShutter = async () => {
+    if (!videoRef.current) return
+
+    const blob = await createImageBlob(videoRef.current.videoEl())
+    push(blob)
+  }
+
+  const previewImageBlob =
+    imageBlobs.length > 0 ? imageBlobs[imageBlobs.length - 1] : undefined
+
   return (
     <Layout>
       <AppBar color="secondary">
@@ -38,8 +62,12 @@ const CameraPage = () => {
         </Box>
       </AppBar>
       <Toolbar />
-      <CameraView srcObject={stream} />
-      <CameraController />
+      <CameraView
+        srcObject={stream}
+        imageBlob={previewImageBlob}
+        ref={videoRef}
+      />
+      <CameraController onClickShutter={handleClickShutter} />
     </Layout>
   )
 }

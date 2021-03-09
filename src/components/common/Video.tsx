@@ -1,21 +1,28 @@
 import React from 'react'
+import { VideoElement } from '@/components/camera/CameraPage'
 
 type Props = React.HTMLProps<HTMLVideoElement> & {
   srcObject?: MediaStream
 }
 
-const Video: React.FC<Props> = ({ srcObject, ...props }) => {
-  const videoRef = React.useRef<HTMLVideoElement>(null)
+const Video = React.forwardRef<VideoElement, Props>(
+  ({ srcObject, ...props }, ref) => {
+    const videoRef = React.useRef<HTMLVideoElement>(null)
 
-  React.useEffect(() => {
-    if (!srcObject) return
+    React.useImperativeHandle(ref, () => ({
+      videoEl: () => videoRef.current,
+    }))
 
-    // srcObject は <video srcObject={srcObject} /> のように React 経由では渡せない。
-    // なので、ref を使って直接DOMにわたす。
-    videoRef.current!.srcObject = srcObject
-  }, [srcObject])
+    React.useEffect(() => {
+      if (!srcObject) return
 
-  return <video {...props} ref={videoRef} />
-}
+      // srcObject は <video srcObject={srcObject} /> のように React 経由では渡せない。
+      // なので、ref を使って直接DOMにわたす。
+      videoRef.current!.srcObject = srcObject
+    }, [srcObject])
+
+    return <video {...props} ref={videoRef} />
+  },
+)
 
 export default Video
