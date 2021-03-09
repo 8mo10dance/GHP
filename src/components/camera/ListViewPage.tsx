@@ -1,6 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { AppBar, Toolbar, Box, IconButton, Typography } from '@material-ui/core'
+import { Link, useHistory } from 'react-router-dom'
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  IconButton,
+  Typography,
+  Button,
+} from '@material-ui/core'
 import { NavigateBefore } from '@material-ui/icons'
 import { ImageBlob } from '@/types/utils'
 import Layout from '@/components/common/Layout'
@@ -17,6 +24,23 @@ const ListViewPage: React.FC<Props> = ({
   isSelected,
   toggleSelected,
 }) => {
+  const history = useHistory()
+
+  const handleClick = () => {
+    const selectedBlobs = imageBlobs.filter((blob, index) => isSelected(index))
+    const formData = new FormData()
+
+    selectedBlobs.forEach((blob, index) => {
+      if (blob instanceof Blob) {
+        formData.append(`image[${index}]`, blob)
+      }
+    })
+
+    console.log(formData)
+
+    history.push('/')
+  }
+
   return (
     <Layout>
       <AppBar color="secondary">
@@ -37,6 +61,17 @@ const ListViewPage: React.FC<Props> = ({
         isSelected={isSelected}
         toggleSelected={toggleSelected}
       />
+      <Box
+        position="fixed"
+        bottom={50}
+        width={1}
+        display="flex"
+        justifyContent="center"
+      >
+        <Button variant="contained" color="secondary" onClick={handleClick}>
+          写真を送信する
+        </Button>
+      </Box>
     </Layout>
   )
 }
