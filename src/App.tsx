@@ -1,5 +1,14 @@
 import React from 'react'
-import { CssBaseline } from '@material-ui/core'
+import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import {
+  Box,
+  CssBaseline,
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+} from '@material-ui/core'
+import CameraPage from '@/components/camera/CameraPage'
 import NumberInput, { NumberInputElement } from './NumberInput'
 
 const App = () => {
@@ -17,6 +26,12 @@ const App = () => {
     <>
       <CssBaseline />
       <form onSubmit={handleSubmit}>
+        <AppBar position="fixed">
+          <Typography component="h1" variant="h6">
+            トップ
+          </Typography>
+        </AppBar>
+        <Toolbar />
         <NumberInput
           ref={ref}
           inputMode="decimal"
@@ -25,6 +40,17 @@ const App = () => {
           max="999"
         />
         <button type="submit">submit</button>
+        <Box
+          display="flex"
+          justifyContent="center"
+          position="fixed"
+          bottom={50}
+          width={1}
+        >
+          <Button variant="contained" color="primary">
+            商品の写真を撮る
+          </Button>
+        </Box>
       </form>
     </>
   )
