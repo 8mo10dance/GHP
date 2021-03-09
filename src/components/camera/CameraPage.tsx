@@ -7,6 +7,24 @@ import CameraView from '@/components/camera/CameraView'
 import CameraController from '@/components/camera/CameraController'
 
 const CameraPage = () => {
+  const [stream, setStream] = React.useState<MediaStream>()
+
+  React.useEffect(() => {
+    updateStream()
+  }, [])
+
+  // 端末のカメラを取得する。
+  const updateStream = async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: {
+        aspectRatio: { ideal: 16 / 9 },
+        facingMode: { ideal: 'environment' }, // environment: 外型のカメラ, user: 内側のカメラ
+      },
+    })
+
+    setStream(stream)
+  }
+
   return (
     <Layout>
       <AppBar color="secondary">
@@ -20,7 +38,7 @@ const CameraPage = () => {
         </Box>
       </AppBar>
       <Toolbar />
-      <CameraView />
+      <CameraView srcObject={stream} />
       <CameraController />
     </Layout>
   )

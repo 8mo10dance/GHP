@@ -1,5 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import Video from '@/components/common/Video'
 
 const useStyles = makeStyles({
   base: {
@@ -13,12 +14,22 @@ const useStyles = makeStyles({
   },
 })
 
-const SAMPLE_IMAGE_SRC = 'https://picsum.photos/1080/1920/?image=15'
+type Props = {
+  srcObject?: MediaStream
+}
 
-const CameraView = () => {
+const CameraView: React.FC<Props> = ({ srcObject }) => {
   const classes = useStyles()
 
-  return <img src={SAMPLE_IMAGE_SRC} className={classes.base} />
+  return (
+    <Video
+      muted
+      autoPlay
+      playsInline
+      srcObject={srcObject}
+      className={classes.base}
+    />
+  )
 }
 
 export default CameraView
