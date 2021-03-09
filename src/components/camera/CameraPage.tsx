@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { AppBar, Toolbar, Typography, Box, IconButton } from '@material-ui/core'
-import { Close } from '@material-ui/icons'
+import { NavigateNext, Close } from '@material-ui/icons'
 import { ImageBlob } from '@/types/utils'
 import Layout from '@/components/common/Layout'
 import CameraView from '@/components/camera/CameraView'
@@ -14,16 +14,14 @@ export type VideoElement = {
 
 type Props = {
   imageBlobs: ImageBlob[]
-  initialize: () => void
   push: (imageBlob: ImageBlob) => void
 }
 
-const CameraPage: React.FC<Props> = ({ imageBlobs, initialize, push }) => {
+const CameraPage: React.FC<Props> = ({ imageBlobs, push }) => {
   const [stream, setStream] = React.useState<MediaStream>()
   const videoRef = React.useRef<VideoElement>(null)
 
   React.useEffect(() => {
-    initialize()
     updateStream()
   }, [])
 
@@ -56,17 +54,24 @@ const CameraPage: React.FC<Props> = ({ imageBlobs, initialize, push }) => {
           <IconButton component={Link} to="/">
             <Close />
           </IconButton>
-          <Typography component="h2" variant="h6">
-            写真を撮影
-          </Typography>
+          <Box component="span" flex={1}>
+            <Typography component="h2" variant="h6">
+              写真を撮影
+            </Typography>
+          </Box>
+          <IconButton component={Link} to="/camera/confirm">
+            <NavigateNext />
+          </IconButton>
         </Box>
       </AppBar>
       <Toolbar />
-      <CameraView
-        srcObject={stream}
-        imageBlob={previewImageBlob}
-        ref={videoRef}
-      />
+      <Box p={2}>
+        <CameraView
+          srcObject={stream}
+          imageBlob={previewImageBlob}
+          ref={videoRef}
+        />
+      </Box>
       <CameraController onClickShutter={handleClickShutter} />
     </Layout>
   )

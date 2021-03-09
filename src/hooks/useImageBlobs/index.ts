@@ -4,7 +4,10 @@ import reducer from './reducer'
 import * as actions from './actions'
 
 const useImageBlobs = () => {
-  const [state, dispatch] = useReducer(reducer, { imageBlobs: [] })
+  const [state, dispatch] = useReducer(reducer, {
+    imageBlobs: [],
+    imageBlobsSelection: [],
+  })
 
   return {
     ...state,
@@ -13,6 +16,9 @@ const useImageBlobs = () => {
     },
     push: (blob: ImageBlob) => {
       dispatch(actions.push(blob))
+    },
+    toggleSelected: (index: number) => {
+      dispatch(actions.toggleSelected(index))
     },
   }
 }

@@ -9,3 +9,8 @@ export const push = (imageBlob: ImageBlob) => ({
   type: ActionType.PUSH as typeof ActionType.PUSH,
   payload: { imageBlob },
 })
+
+export const toggleSelected = (index: number) => ({
+  type: ActionType.TOGGLE_SELECTED as typeof ActionType.TOGGLE_SELECTED,
+  payload: { index },
+})

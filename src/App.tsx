@@ -17,11 +17,18 @@ import {
 } from '@material-ui/core'
 import Dialog from '@/components/common/Dialog'
 import CameraPage from '@/components/camera/CameraPage'
+import ListViewPage from '@/components/camera/ListViewPage'
 import useImageBlobs from '@/hooks/useImageBlobs'
 import NumberInput, { NumberInputElement } from './NumberInput'
 
 const SamplePage = () => {
-  const { imageBlobs, initialize, push } = useImageBlobs()
+  const {
+    imageBlobs,
+    imageBlobsSelection,
+    initialize,
+    push,
+    toggleSelected,
+  } = useImageBlobs()
   const ref = React.useRef<NumberInputElement>(null)
   const history = useHistory()
   const matchCameraPage = useRouteMatch('/camera')
@@ -33,6 +40,10 @@ const SamplePage = () => {
       console.log(ref.current.value())
     }
   }
+
+  React.useEffect(() => {
+    initialize()
+  }, [])
 
   return (
     <>
@@ -62,7 +73,7 @@ const SamplePage = () => {
             variant="contained"
             color="primary"
             component={Link}
-            to="/camera"
+            to="/camera/input"
           >
             商品の写真を撮る
           </Button>
@@ -70,11 +81,14 @@ const SamplePage = () => {
       </form>
       <Dialog open={Boolean(matchCameraPage)} onClose={() => history.push('/')}>
         <Switch>
-          <Route path="/camera">
-            <CameraPage
+          <Route path="/camera/input">
+            <CameraPage imageBlobs={imageBlobs} push={push} />
+          </Route>
+          <Route path="/camera/confirm">
+            <ListViewPage
               imageBlobs={imageBlobs}
-              initialize={initialize}
-              push={push}
+              isSelected={(index: number) => imageBlobsSelection[index]}
+              toggleSelected={toggleSelected}
             />
           </Route>
         </Switch>
