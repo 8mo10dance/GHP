@@ -1,5 +1,6 @@
 import React from 'react'
 import { AppBar, Toolbar, Typography, Box } from '@material-ui/core'
+import Pattern from '@/models/maskmaker/Pattern'
 import Layout from '@/components/common/Layout'
 import FileField from '@/components/common/FileField'
 import ImageView from '@/components/massmaker/ImageView'
@@ -9,12 +10,13 @@ type Props = {}
 
 const HomePage: React.FC<Props> = () => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
+  const pattern = Pattern.dotMesh(50)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const imageFile = e.target.files![0]
     if (!imageFile || !canvasRef.current) return
 
-    drawImage(imageFile, canvasRef.current)
+    drawImage(imageFile, canvasRef.current, pattern)
   }
 
   return (

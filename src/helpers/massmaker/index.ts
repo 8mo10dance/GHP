@@ -1,4 +1,8 @@
-export const drawImage = (imageFile: File, canvas: HTMLCanvasElement) => {
+export const drawImage = (
+  imageFile: File,
+  canvas: HTMLCanvasElement,
+  pattern?: HTMLCanvasElement,
+) => {
   const reader = new FileReader()
   reader.onloadend = () => {
     const url = reader.result
@@ -11,7 +15,14 @@ export const drawImage = (imageFile: File, canvas: HTMLCanvasElement) => {
           height: image.naturalWidth,
         })
         const ctx = canvas.getContext('2d')
-        ctx!.drawImage(image, 0, 0)
+        if (!ctx || !pattern) return
+
+        ctx.drawImage(image, 0, 0)
+        const patternStyle = ctx.createPattern(pattern, 'repeat')
+        if (!patternStyle) return
+
+        ctx.fillStyle = patternStyle
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
       }
     }
   }
