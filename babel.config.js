@@ -26,6 +26,15 @@ module.exports = (api) => {
       },
       'core',
     ],
+    [
+      'import',
+      {
+        libraryName: '@material-ui/icons',
+        libraryDirectory: '',
+        camel2DashComponentName: false,
+      },
+      'icons',
+    ],
   ]
 
   return {
